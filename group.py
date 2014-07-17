@@ -8,18 +8,47 @@ class Group:
 
     def __init__(self):
         self.groupSize = self.genGroupSize()
-        self.travelTime = self.genTravelTime()
-        self.ttl = self.travelTime
+
+        # time to drop off (a ttl while in car)
+        self.ttdo = 0
+
+        # time to pick up (a ttl while waiting for a car)
+        self.ttpu = 0
+
         self.log = {
             'spawn' : common.clock,
-            'driverAssigned' : None,
+            'enqueued' : None,
             'start' : None,
             'end'   : None,
             'size'  : self.groupSize
         }
 
     def __str__(self):
-        return '<ID: %r, size: %r, time: %r, ttl: %r>' % (id(self), self.groupSize, self.travelTime, self.ttl)
+        return '<ID: %r, size: %r, ttdo: %r, ttpu %r>' % (id(self), self.groupSize, self.ttdo, self.ttpu)
+
+    def enqueue(self, ttpu):
+        self.log['driverAssigned'] = common.clock
+        self.ttpu = ttpu
+
+    def pickUp(self):
+        self.log['start'] = common.clock
+        self.ttdo = self.genTravelTime()
+
+    def dropOff(self):
+        self.log['end'] = common.clock
+
+    def step(self):
+        if self.ttdo > 0:
+            self.ttdo -= 1
+
+        if self.ttpu > 0:
+            self.ttpu -= 1
+
+    def hasDroppedOff(self):
+        return self.ttdo == 0
+
+    def hasPickedUp(self):
+        return self.ttpo == 0
 
     def genGroupSize(self):
         num = random.random()
@@ -37,19 +66,3 @@ class Group:
             return num
         return 1
 
-    def assigned(self):
-        self.log['driverAssigned'] = common.clock
-
-    def pickUp(self):
-        self.log['start'] = common.clock
-
-    def dropOff(self):
-        self.log['end'] = common.clock
-
-    def step(self):
-        self.ttl -= 1
-        if self.ttl == 0:
-            self.dropOff()
-
-    def hasArrived(self):
-        return self.ttl == 0

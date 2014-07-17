@@ -1,6 +1,7 @@
 import common
-import Group
+import group
 import random
+#import vehicles
 
 class Vehicle(object):
     CAPACITY = 3
@@ -9,27 +10,49 @@ class Vehicle(object):
         self.groups = [] # add group objects
         self.occupancy = 0
         self.holdTime = 0
-        #TODO
-        # Impending pickup queue that is a tuple of "time to pick up" (like
-        # TTL) and the group that will be onboarded
+        self.pickUpQueue = [] # tuple of group, ttpu
 
-    #TODO 
+    def __str__(self):
+        return '<ID: %r, Number of Groups: %r, Occupancy: %r, Hold Time: %r, Queue Size: %r>' % (id(self), len(self.groups), self.occupancy, self.holdTime, len(self.pickUpQueue))
+
     def availableToPickUp(self):
-        # if uber
-        return ocuppancy == 0
-        # hitch
-        return capacity - occupancy
+        """
+        Delegate this to subclasses
+        """
+        pass
 
-    def addGroup(self, group):
-        self.groups.append(group)
-        group.pickUp()
+        # if uber
+        # return ocuppancy == 0
+
+        # hitch
+        # return capacity - occupancy
+
+    def enqueueGroup(self, group):
+        """
+        Add group to pickUpQueue
+        """
+        # Tell the group that it's enqueued
+        group.enqueue(self.genTimeToPickUp)
+
+        # and store it on the vehicle
+        self.pickUpQueue.append(group)
+
         self.occupancy += group.groupSize
+
+    def pickUpGroup(self, group):
+        """
+        Move group from pickUpQueue to car
+        """
+        self.pickUpQueue.remove(group)
+        group.pickUp()
+        self.groups.append(group)
         self.genHoldTime()
 
-    def removeGroup(self, group):
+    def dropOffGroup(self, group):
         self.groups.remove(group)
         self.genHoldTime()
         self.occupancy -= group.groupSize
+        group.dropOff()
 
         # Store the group's data to some global for later calculation
         common.completedGroups.append(group.log)
@@ -39,16 +62,36 @@ class Vehicle(object):
             self.holdTime -= 1
             return
 
+        # Handle passengers
         for group in self.groups:
             group.step()
 
-        # iterate over a copy
         for groupCopy in self.groups[:]:
-            if groupCopy.hasArrived():
-                self.removeGroup(groupCopy)
+            if groupCopy.hasDroppedOff():
+                self.dropOffGroup(groupCopy)
+
+        # Handle Queue
+        for group in self.pickUpQueue:
+            group.step()
+
+        for groupCopy in self.groupPickUpQueue[:]:
+            if groupCopy.hasPickedUp():
+                self.pickUpGroup(groupCopy)
 
     def genHoldTime(self):
         holdTime = random.gauss(common.vehicleHoldTimeAverage, common.vehicleHoldTimeStdDev)
         if holdTime < 1:
             holdTime = 1
+
+        """
+        Note: We don't add this. This is important if we pick up two groups
+        at once - they are serviced in parallel, and we basically randomly pick
+        between the two groups' hold times.
+        """
         self.holdTime = holdTime
+
+    def genTimeToPickUp(self):
+        pickUpTime = random.gauss(common.vehiclePickUpTimeAverage, common.groupPickUpTimeStdDev)
+        if pickUpTime < 1:
+            return 1
+        return pickUpTime
