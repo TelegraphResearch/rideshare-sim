@@ -36,7 +36,7 @@ class Group:
 
     def dropOff(self):
         self.log['end'] = common.clock
-        common.log[self.logName].append(self.log)
+        common.logs[self.logName].append(self.log)
 
     def step(self):
         if self.ttdo > 0:
@@ -49,13 +49,13 @@ class Group:
         return self.ttdo == 0
 
     def hasPickedUp(self):
-        return self.ttpo == 0
+        return self.ttpu == 0
 
     def genGroupSize(self):
         num = random.random()
         if num >= 0.3:
             return 1
-        elif num >= 0.1:
+        elif num >= 0.01:
             return 2
         return 3
 

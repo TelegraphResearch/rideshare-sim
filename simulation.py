@@ -3,45 +3,28 @@ from group import Group
 from environment import Environment
 from vehicles.uber import Uber
 from vehicles.hitch import Hitch
+import random
 
 class Simulation(object):
-    """
-    OMG PSEUDOCODE
-    """
 
-    def __init__(self):
+    def __init__(self, serviceTypes):
         self.time = 10000 #TIME OF SIMULATION
-        self.envs = [uber, hitch]
+        self.envs = []
+        for serviceType in serviceTypes:
+            self.envs.append(Environment(serviceType))
 
-
-        # TODO: gen envs
-
-
-    def run():
+    def run(self):
         while common.clock < self.time:
             common.clock += 1
-            group = self.genGroup() if self.needGroup() else None
+            group = Group() if self.needGroup() else None
             for env in self.envs:
                 env.step(group)
-        for env in envs:
+        for env in self.envs:
             while env.stillRunning():
                 common.clock += 1
-                env.step() # no group passed in
+                env.step(None) # no group passed in
 
-    def genGroup():
-        '''
-        Initialize a new group
-        '''
-        pass
-
-    def needGroup():
-        '''
-        Some exponential arrival shit
-        '''
-
-        pass
-
-    def getLogs():
-        logs = {}
-        for env in self.envs:
-                logs[str(env)] = env.getLogs()
+    def needGroup(self):
+        if random.random() < .1:
+            return True
+        return False

@@ -12,21 +12,23 @@ class Environment(object):
         self.serviceType = serviceType
         self.vehicles = []
         self.queue = []
+        self.genVehicles()
 
     def __str__(self):
         return '<ID: %r, Service Type: %s, Number in Queue: %r, Number of Vehicles: %r>' % (id(self), self.serviceType, len(self.queue), len(self.vehicles))
 
     def step(self, group):
-        # group enters the environment - make it aware so it collects data
-        group.assignLog(self.serviceType)
-
         if group is not None:
+            group.assignLog(self.serviceType)
             self.enqueue(group)
 
         for vehicle in self.vehicles:
             vehicle.step()
 
         self.serviceQueue()
+
+        print(str(self) + "\n")
+        print(self.serviceType + ': ' + str(len(common.logs[self.serviceType])) + "\n")
 
     def enqueue(self, group):
         self.queue.append(group)
@@ -39,17 +41,17 @@ class Environment(object):
 
     def assign(self, group):
         for vehicle in self.vehicles:
-            if vehicle.availibleToPickUp() >= group.groupSize:
+            if vehicle.availableToPickUp() >= group.groupSize:
                 # assign group to vehicle
                 vehicle.enqueueGroup(group)
 
                 # keep future assignments through this heuristic random
                 random.shuffle(self.vehicles)
 
-                return true
+                return True
 
         # could not find a vehicle
-        return false
+        return False
 
     def genVehicles(self):
         for _ in range(common.vehicleQuantity[self.serviceType]):

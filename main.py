@@ -1,6 +1,7 @@
 from simulation import Simulation
+import common
 
-simulation = Simulation()
+simulation = Simulation(['uber', 'hitch'])
 
 simulation.run()
 

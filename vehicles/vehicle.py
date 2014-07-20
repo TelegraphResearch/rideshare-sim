@@ -32,7 +32,7 @@ class Vehicle(object):
         Add group to pickUpQueue
         """
         # Tell the group that it's enqueued
-        group.enqueue(self.genTimeToPickUp)
+        group.enqueue(self.genTimeToPickUp())
 
         # and store it on the vehicle
         self.pickUpQueue.append(group)
@@ -54,9 +54,6 @@ class Vehicle(object):
         self.occupancy -= group.groupSize
         group.dropOff()
 
-        # Store the group's data to some global for later calculation
-        common.completedGroups.append(group.log)
-
     def step(self):
         if self.holdTime > 0:
             self.holdTime -= 1
@@ -74,9 +71,11 @@ class Vehicle(object):
         for group in self.pickUpQueue:
             group.step()
 
-        for groupCopy in self.groupPickUpQueue[:]:
+        for groupCopy in self.pickUpQueue[:]:
             if groupCopy.hasPickedUp():
                 self.pickUpGroup(groupCopy)
+
+        print(str(self) + "\n")
 
     def genHoldTime(self):
         holdTime = random.gauss(common.vehicleHoldTimeAverage, common.vehicleHoldTimeStdDev)
@@ -91,7 +90,7 @@ class Vehicle(object):
         self.holdTime = holdTime
 
     def genTimeToPickUp(self):
-        pickUpTime = random.gauss(common.vehiclePickUpTimeAverage, common.groupPickUpTimeStdDev)
+        pickUpTime = random.gauss(common.vehiclePickUpTimeAverage, common.vehiclePickUpTimeStdDev)
         if pickUpTime < 1:
             return 1
         return pickUpTime
