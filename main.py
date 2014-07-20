@@ -1,6 +1,8 @@
 from simulation import Simulation
 
-uber = Simulation('uber')
-lyft = Simulation('lyft')
+simulation = Simulation()
+
+simulation.run()
 
 # calculations
+print(common.logs)
