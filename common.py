@@ -8,5 +8,9 @@ vehicleHoldTimeStdDev = 30       # 30 seconds
 vehiclePickUpTimeAverage = 5 * 60 # 6 minutes
 vehiclePickUpTimeDev = 2 * 60 # 2 minutes
 
-# Lists
-completedGroups = []
+# Vehicle Quantity
+vehicleQuantity = {'uber': 10, 'hitch': 10}
+
+# Ultimate output
+completedGroups = {'uber': [], 'hitch': []}
+

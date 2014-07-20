@@ -36,6 +36,7 @@ class Group:
 
     def dropOff(self):
         self.log['end'] = common.clock
+        common.log[self.logName].append(self.log)
 
     def step(self):
         if self.ttdo > 0:
@@ -65,4 +66,7 @@ class Group:
         if (num > 1):
             return num
         return 1
+
+    def assignLog(self, name):
+        self.logName = name
 
