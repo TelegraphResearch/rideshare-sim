@@ -43,6 +43,7 @@ class Vehicle(object):
         """
         Move group from pickUpQueue to car
         """
+
         self.pickUpQueue.remove(group)
         group.pickUp()
         self.groups.append(group)
@@ -87,10 +88,10 @@ class Vehicle(object):
         at once - they are serviced in parallel, and we basically randomly pick
         between the two groups' hold times.
         """
-        self.holdTime = holdTime
+        self.holdTime = int(holdTime)
 
     def genTimeToPickUp(self):
         pickUpTime = random.gauss(common.vehiclePickUpTimeAverage, common.vehiclePickUpTimeStdDev)
         if pickUpTime < 1:
             return 1
-        return pickUpTime
+        return int(pickUpTime)
