@@ -1,4 +1,11 @@
 clock = 0
+logStart = 2*60*60 
+logEnd = logStart + 24*60*60
+simLength= logEnd
+
+def collectStats():
+    return (clock >= logStart) and (clock < logEnd)
+
 
 # Timing in seconds
 travelTimeAverage = 15 * 60      # 15 minutes
@@ -12,5 +19,6 @@ vehiclePickUpTimeStdDev = 2 * 60 # 2 minutes
 vehicleQuantity = {'uber': 100, 'hitch': 60}
 
 # Ultimate output
-logs = {'uber': [], 'hitch': []}
+logs = {'uber': [], 'hitch': []} # group logs
+vehicleLogs = {'uber': [], 'hitch': []}
 

@@ -67,3 +67,7 @@ class Environment(object):
 
         return False
 
+    def sendVehicleLogs(self):
+        for vehicle in self.vehicles:
+            common.vehicleLogs[self.serviceType].append(vehicle.log)
+

@@ -8,9 +8,30 @@ class Vehicle(object):
 
     def __init__(self):
         self.groups = [] # add group objects
-        self.occupancy = 0
+        self.occupancy = 0 # not that this include pickupQueuek
         self.holdTime = 0
         self.pickUpQueue = [] # tuple of group, ttpu
+        self.log = {
+            'sum': {
+                'groups': 0,
+                'passengers': 0,
+                'groupsAssigned': 0,
+                'passengersAssigned': 0,
+            },
+            'sumSquared': {
+                'groups': 0,
+                'passengers': 0,
+                'groupsAssigned': 0,
+                'passengersAssigned': 0,
+            },
+            'stateCount': {
+                'idle': 0,
+                'drivingOccupied': 0,
+                'drivingUnoccupied': 0,
+                'holdingOccupied': 0,
+                'holdingUnoccupied': 0,
+            }
+        }
 
     def __str__(self):
         return '<ID: %r, Number of Groups: %r, Occupancy: %r, Hold Time: %r, Queue Size: %r>' % (id(self), len(self.groups), self.occupancy, self.holdTime, len(self.pickUpQueue))
@@ -56,6 +77,7 @@ class Vehicle(object):
         group.dropOff()
 
     def step(self):
+
         if self.holdTime > 0:
             self.holdTime -= 1
             return
@@ -76,6 +98,9 @@ class Vehicle(object):
             if groupCopy.hasPickedUp():
                 self.pickUpGroup(groupCopy)
 
+        if common.collectStats():
+            self.statsStep()
+
     def genHoldTime(self):
         holdTime = random.gauss(common.vehicleHoldTimeAverage, common.vehicleHoldTimeStdDev)
         if holdTime < 1:
@@ -93,3 +118,45 @@ class Vehicle(object):
         if pickUpTime < 1:
             return 1
         return int(pickUpTime)
+
+    def statsStep(self):
+        self.log['stateCount'][self.getState()] += 1
+
+        # number of groups in the car
+        groups = len(self.groups)
+        self.log['sum']['groups'] += groups
+        self.log['sumSquared']['groups'] += groups^2
+
+        #  number of passengers in the car - different than self.occupancy
+        passengers = 0
+        for group in self.groups:
+            passengers += group.groupSize
+        self.log['sum']['passengers'] += passengers
+        self.log['sumSquared']['passengers'] += passengers^2
+
+        # number of groups assigned but not yet picked up
+        groupsAssigned = len(self.pickUpQueue)
+        self.log['sum']['groupsAssigned'] += groupsAssigned
+        self.log['sumSquared']['groupsAssigned'] += groupsAssigned^2
+
+        # number of passengers assigned but not yet picked up
+        passengersAssigned = 0
+        for group in self.pickUpQueue:
+            passengersAssigned += group.groupSize
+        self.log['sum']['passengersAssigned'] += passengersAssigned
+        self.log['sumSquared']['passengersAssigned'] += passengersAssigned^2
+
+    def getState(self):
+        if self.occupancy == 0:
+            # occupancy accounts for both in acr and pickup queue
+            return 'idle'
+        if self.holdTime == 0:
+            if len(self.groups) > 0:
+                return 'holdingOccupied'
+            else:
+                return 'holdingUnoccupied'
+        else:
+            if len(self.groups) > 0:
+                return 'drivingOccupied'
+            else:
+                return 'drivingUnoccupied'

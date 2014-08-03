@@ -7,4 +7,7 @@ simulation = Simulation(['uber', 'hitch'])
 simulation.run()
 
 # calculations
-simulation.csv()
+print(str(len(common.logs['uber'])))
+print(str(len(common.logs['hitch'])))
+print(str(len(common.vehicleLogs['uber'])))
+print(str(len(common.vehicleLogs['hitch'])))

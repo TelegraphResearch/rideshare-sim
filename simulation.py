@@ -9,7 +9,7 @@ import copy
 class Simulation(object):
 
     def __init__(self, serviceTypes):
-        self.time = 60*60*26 #TIME OF SIMULATION
+        self.time = common.simLength #TIME OF SIMULATION
         # 26 hours
         self.envs = []
         for serviceType in serviceTypes:
@@ -18,6 +18,9 @@ class Simulation(object):
     def run(self):
         while common.clock < self.time:
             common.clock += 1
+            if common.clock % 1000 == 0:
+                print(common.clock)
+
             group = Group() if self.needGroup() else None
 
             for env in self.envs:
@@ -25,9 +28,7 @@ class Simulation(object):
                 env.step(copy.deepcopy(group))
 
         for env in self.envs:
-            while env.stillRunning():
-                common.clock += 1
-                env.step(None) # no group passed in
+            env.sendVehicleLogs()
 
     def needGroup(self):
         if random.random() < .1:

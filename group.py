@@ -36,7 +36,8 @@ class Group:
 
     def dropOff(self):
         self.log['end'] = common.clock
-        common.logs[self.logName].append(self.log)
+        if self.log['spawn'] >= common.logStart:
+            common.logs[self.logName].append(self.log)
 
     def step(self):
         if self.ttdo > 0:
