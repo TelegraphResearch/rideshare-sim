@@ -76,8 +76,6 @@ class Vehicle(object):
             if groupCopy.hasPickedUp():
                 self.pickUpGroup(groupCopy)
 
-        print(str(self) + "\n")
-
     def genHoldTime(self):
         holdTime = random.gauss(common.vehicleHoldTimeAverage, common.vehicleHoldTimeStdDev)
         if holdTime < 1:

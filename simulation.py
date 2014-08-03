@@ -4,11 +4,12 @@ from environment import Environment
 from vehicles.uber import Uber
 from vehicles.hitch import Hitch
 import random
+import copy
 
 class Simulation(object):
 
     def __init__(self, serviceTypes):
-        self.time = 10000 #TIME OF SIMULATION
+        self.time = 100 #TIME OF SIMULATION
         self.envs = []
         for serviceType in serviceTypes:
             self.envs.append(Environment(serviceType))
@@ -17,8 +18,11 @@ class Simulation(object):
         while common.clock < self.time:
             common.clock += 1
             group = Group() if self.needGroup() else None
+
             for env in self.envs:
-                env.step(group)
+                # Need to make a copy of the object to avoid pointer issues
+                env.step(copy.deepcopy(group))
+
         for env in self.envs:
             while env.stillRunning():
                 common.clock += 1

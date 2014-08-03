@@ -27,9 +27,6 @@ class Environment(object):
 
         self.serviceQueue()
 
-        print(str(self) + "\n")
-        print(self.serviceType + ': ' + str(len(common.logs[self.serviceType])) + "\n")
-
     def enqueue(self, group):
         self.queue.append(group)
 
