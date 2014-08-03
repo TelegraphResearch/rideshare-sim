@@ -65,7 +65,7 @@ class Environment(object):
             return True
 
         for vehicle in self.vehicles:
-            if vehicle.availableToPickUp != vehicle.CAPACITY:
+            if vehicle.availableToPickUp() != vehicle.CAPACITY:
                 return True
 
         return False
