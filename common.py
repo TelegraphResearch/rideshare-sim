@@ -9,7 +9,7 @@ vehiclePickUpTimeAverage = 5 * 60 # 6 minutes
 vehiclePickUpTimeStdDev = 2 * 60 # 2 minutes
 
 # Vehicle Quantity
-vehicleQuantity = {'uber': 1, 'hitch': 1}
+vehicleQuantity = {'uber': 100, 'hitch': 60}
 
 # Ultimate output
 logs = {'uber': [], 'hitch': []}

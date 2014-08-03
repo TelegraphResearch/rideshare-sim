@@ -9,7 +9,8 @@ import copy
 class Simulation(object):
 
     def __init__(self, serviceTypes):
-        self.time = 100 #TIME OF SIMULATION
+        self.time = 60*60*26 #TIME OF SIMULATION
+        # 26 hours
         self.envs = []
         for serviceType in serviceTypes:
             self.envs.append(Environment(serviceType))
@@ -32,3 +33,34 @@ class Simulation(object):
         if random.random() < .1:
             return True
         return False
+    
+    def csv(self):
+        '''
+        print logs to stdout
+        '''
+        columns = [
+            'type',
+            'spawn',
+            'driverAssigned',
+            'start',
+            'end',
+            'size',
+        ]
+
+        # headers
+        for column in columns:
+            print("%s," % column),
+        print("\n"),
+
+        # uber logs
+        for log in common.logs['uber']:
+            print("uber,", end="")
+            for key in log:
+                print("%s," % log[key], end="")
+            print("\n", end="")
+
+        for log in common.logs['hitch']:
+            print("hitch,", end="")
+            for key in log:
+                print("%s," % log[key], end="")
+            print("\n", end="")

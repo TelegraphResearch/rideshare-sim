@@ -17,7 +17,7 @@ class Group:
 
         self.log = {
             'spawn' : common.clock,
-            'enqueued' : None,
+            'driverAssigned': None,
             'start' : None,
             'end'   : None,
             'size'  : self.groupSize
