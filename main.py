@@ -1,13 +1,13 @@
 from simulation import Simulation
 import common
 import json
+from datetime import datetime
 
 simulation = Simulation(['uber', 'hitch'])
 
 simulation.run()
 
-# calculations
-print(str(len(common.logs['uber'])))
-print(str(len(common.logs['hitch'])))
-print(str(len(common.vehicleLogs['uber'])))
-print(str(len(common.vehicleLogs['hitch'])))
+# Save the results of the file to json 
+f = open("output/run-%s.json" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'w')
+f.write(json.dumps(common.getLogs()))
+f.close()

@@ -1,6 +1,6 @@
 clock = 0
-logStart = 2*60*60 
-logEnd = logStart + 24*60*60
+logStart = 1 # 2*60*60 
+logEnd = 100 #logStart + 24*60*60
 simLength= logEnd
 
 def collectStats():
@@ -22,3 +22,13 @@ vehicleQuantity = {'uber': 100, 'hitch': 60}
 logs = {'uber': [], 'hitch': []} # group logs
 vehicleLogs = {'uber': [], 'hitch': []}
 
+def getLogs():
+    return {
+        'group': logs,
+        'vehicles': vehicleLogs,
+        'env': {
+            'vehicleQuantity': vehicleQuantity,
+            'logStart': logStart,
+            'logEnd': logEnd,
+        }
+    }
