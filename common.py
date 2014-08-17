@@ -16,11 +16,11 @@ vehiclePickUpTimeAverage = 5 * 60 # 6 minutes
 vehiclePickUpTimeStdDev = 2 * 60 # 2 minutes
 
 # Vehicle Quantity
-vehicleQuantity = {'uber': 100, 'hitch': 60}
+vehicleQuantity = {'dedicated': 100, 'pooled': 60}
 
 # Ultimate output
-logs = {'uber': [], 'hitch': []} # group logs
-vehicleLogs = {'uber': [], 'hitch': []}
+logs = {'dedicated': [], 'pooled': []} # group logs
+vehicleLogs = {'dedicated': [], 'pooled': []}
 
 def getLogs():
     return {

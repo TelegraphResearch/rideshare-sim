@@ -3,7 +3,7 @@ import common
 import json
 from datetime import datetime
 
-simulation = Simulation(['uber', 'hitch'])
+simulation = Simulation(['dedicated', 'pooled'])
 
 simulation.run()
 

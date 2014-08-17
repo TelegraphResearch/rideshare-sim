@@ -42,10 +42,10 @@ class Vehicle(object):
         """
         pass
 
-        # if uber
+        # if dedicated
         # return ocuppancy == 0
 
-        # hitch
+        # pooled
         # return capacity - occupancy
 
     def enqueueGroup(self, group):
