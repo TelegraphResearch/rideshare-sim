@@ -21,8 +21,8 @@ vehiclePickUpTimeStdDev = 2 * 60 # 2 minutes
 vehicleQuantity = {'uber': 100, 'hitch': 100}
 
 # Ultimate output
-logs = {'uber': [], 'hitch': []} # group logs
-vehicleLogs = {'uber': [], 'hitch': []}
+logs = {'dedicated': [], 'pooled': []} # group logs
+vehicleLogs = {'dedicated': [], 'pooled': []}
 
 def getLogs():
     return {

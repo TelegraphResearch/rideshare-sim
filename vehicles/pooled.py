@@ -1,8 +1,8 @@
 from . import vehicle
 
-class Hitch(vehicle.Vehicle):
+class Pooled(vehicle.Vehicle):
     def __init__(self): 
-        super(Hitch, self).__init__()
+        super(Pooled, self).__init__()
 
     def availableToPickUp(self):
         return self.CAPACITY - self.occupancy

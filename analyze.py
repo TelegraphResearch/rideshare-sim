@@ -8,7 +8,7 @@ then runs calculations and exports a summary script
 '''
 
 # set global constants
-services = ['uber', 'hitch']
+services = ['dedicated', 'pooled']
 output = {}
 for service in services:
     output[service] = {}

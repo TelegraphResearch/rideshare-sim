@@ -1,7 +1,7 @@
 import common
 from group import Group
-from vehicles.uber import Uber
-from vehicles.hitch import Hitch
+from vehicles.dedicated import Dedicated
+from vehicles.pooled import Pooled
 import random
 
 class Environment(object):
@@ -52,10 +52,10 @@ class Environment(object):
 
     def genVehicles(self):
         for _ in range(common.vehicleQuantity[self.serviceType]):
-            if self.serviceType is 'uber':
-                self.vehicles.append(Uber())
-            if self.serviceType is 'hitch':
-                self.vehicles.append(Hitch())
+            if self.serviceType is 'dedicated':
+                self.vehicles.append(Dedicated())
+            if self.serviceType is 'pooled':
+                self.vehicles.append(Pooled())
 
     def stillRunning(self):
         if len(self.queue) > 0: 
