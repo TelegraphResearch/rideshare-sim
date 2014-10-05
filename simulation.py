@@ -18,7 +18,7 @@ class Simulation(object):
     def run(self):
         while common.clock < self.time:
             common.clock += 1
-            if common.clock % 1000 == 0:
+            if common.clock % 10000 == 0:
                 print(common.clock)
 
             group = Group() if self.needGroup() else None
@@ -31,10 +31,10 @@ class Simulation(object):
             env.sendVehicleLogs()
 
     def needGroup(self):
-        if random.random() < .1:
+        if random.random() < common.needGroupFrequency:
             return True
         return False
-    
+
     def csv(self):
         '''
         print logs to stdout

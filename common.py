@@ -1,11 +1,13 @@
 clock = 0
-logStart = 1 # 2*60*60 
-logEnd = 100 #logStart + 24*60*60
+logStart = 1*60*60
+logEnd = logStart + 6*60*60
 simLength= logEnd
 
 def collectStats():
     return (clock >= logStart) and (clock < logEnd)
 
+# Arrival Rate
+needGroupFrequency = 0.06
 
 # Timing in seconds
 travelTimeAverage = 15 * 60      # 15 minutes
@@ -16,7 +18,7 @@ vehiclePickUpTimeAverage = 5 * 60 # 6 minutes
 vehiclePickUpTimeStdDev = 2 * 60 # 2 minutes
 
 # Vehicle Quantity
-vehicleQuantity = {'uber': 100, 'hitch': 60}
+vehicleQuantity = {'uber': 100, 'hitch': 100}
 
 # Ultimate output
 logs = {'uber': [], 'hitch': []} # group logs
@@ -32,3 +34,8 @@ def getLogs():
             'logEnd': logEnd,
         }
     }
+
+def resetLogs():
+    clock = 0
+    logs = {'uber': [], 'hitch': []}
+    vehicleLogs = {'uber': [], 'hitch': []}

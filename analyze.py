@@ -191,11 +191,11 @@ for service in services:
             for attribute in GROUP_TIMES:
                 output[service][
                      'Average time to %s for group size %s' % (attribute, size)
-                 ] = mean(groupMetrics[size][attribute])
+                 ] = mean(groupMetrics[size][attribute]) if (len(groupMetrics[size][attribute]) > 0) else 0
 
                 output[service][
                     'stdev time to %s for group size %s' % (attribute, size)
-                 ] = stdev(groupMetrics[size][attribute])
+                 ] = stdev(groupMetrics[size][attribute]) if (len(groupMetrics[size][attribute]) > 0) else 0
 
 
 
