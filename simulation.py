@@ -9,8 +9,7 @@ import copy
 class Simulation(object):
 
     def __init__(self, serviceTypes):
-        self.time = common.simLength #TIME OF SIMULATION
-        # 26 hours
+        self.time = common.simLength
         self.envs = []
         for serviceType in serviceTypes:
             self.envs.append(Environment(serviceType))

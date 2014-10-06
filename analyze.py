@@ -3,8 +3,7 @@ from statistics import *
 import sys, json
 
 '''
-This script is run from the command line and opens a specified data run in JSON
-then runs calculations and exports a summary script
+This script is run from the command line and opens JSON file. It then runs calculations and exports a summary script.
 '''
 
 # set global constants
@@ -56,16 +55,10 @@ GROUP_TIMES = [
     'end',
 ]
 
-
-# open file
-sys.argv[1]
-
 # import data
 f = open(sys.argv[1], 'r')
 data = json.loads(f.read())
 f.close()
-
-
 
 # run calculations
 
@@ -162,12 +155,9 @@ for service in services:
         output[service]['system stdev of ' + category] = math.sqrt(
                     (simLength*vehicles * vehicleQuantSum['sumSquared'][category] - vehicleQuantSum['sum'][category]^2) / (simLength*vehicles * (simLength*vehicles-1))
         )
-        #phew
 
 
-        #
         # GROUPS
-        #
 
         groupMetrics = {}
         groupMetrics['all'] = {}
@@ -196,7 +186,6 @@ for service in services:
                 output[service][
                     'stdev time to %s for group size %s' % (attribute, size)
                  ] = stdev(groupMetrics[size][attribute]) if (len(groupMetrics[size][attribute]) > 0) else 0
-
 
 
 # Save the results of the file to json 

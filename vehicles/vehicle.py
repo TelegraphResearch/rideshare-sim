@@ -1,14 +1,13 @@
 import common
 import group
 import random
-#import vehicles
 
 class Vehicle(object):
     CAPACITY = 3
 
     def __init__(self):
         self.groups = [] # add group objects
-        self.occupancy = 0 # not that this include pickupQueuek
+        self.occupancy = 0 # this includes pickupQueue
         self.holdTime = 0
         self.pickUpQueue = [] # tuple of group, ttpu
         self.log = {
@@ -52,6 +51,7 @@ class Vehicle(object):
         """
         Add group to pickUpQueue
         """
+
         # Tell the group that it's enqueued
         group.enqueue(self.genTimeToPickUp())
 
@@ -148,7 +148,6 @@ class Vehicle(object):
 
     def getState(self):
         if self.occupancy == 0:
-            # occupancy accounts for both in acr and pickup queue
             return 'idle'
         if self.holdTime == 0:
             if len(self.groups) > 0:
