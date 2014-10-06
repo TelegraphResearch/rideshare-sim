@@ -42,6 +42,5 @@ nosetests.xml
 # Virtual environment
 venv
 
-# output folders
+# output folder
 output/
-analysis/
