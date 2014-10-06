@@ -14,15 +14,15 @@ Most controls for the simulation are located in common.py. Here you can alter th
 
 Once you have set the variables in common.py, you can run the simulation by calling main.py.
 
-'''
+```
 python main.py
-'''
+```
 
 ## Output and Analysis
 
 Raw simulation data is saved in _output_. This just contains the log from each type of simulation for both vehicles and groups. To get important metrics of each vehicle, use analyze.py.
 
-'''
+```
 python analyze.py output/<filename> <analysis-output-name>.json
-'''
+```
 
