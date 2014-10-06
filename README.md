@@ -1,7 +1,7 @@
 Rideshare Simulation
 ===========
 
-This project was built by Telegraph Research to study the differences between dedicated and pooled ridesharing services. The results and report can be found [here](http://www.telegraphresearch.com/articles/).
+This project was built by Telegraph Research to study the differences between dedicated and pooled ridesharing services. The results and report can be found [here](http://www.telegraphresearch.com/ridesharing/).
 
 ## Getting Started
 Please make sure that you have Python 3.4 installed on your machine. This version is required because some of the code uses the [Python statistics](https://docs.python.org/3/library/statistics.html) module.
